@@ -1,0 +1,375 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="HotelDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="CheckIn">
+    <Key>
+      <PropertyRef Name="CheckInID" />
+    </Key>
+    <Property Name="CheckInID" Type="Int32" Nullable="false" />
+    <Property Name="ReservaID" Type="Int32" />
+    <Property Name="FechaCheckIn" Type="DateTime" Precision="0" />
+    <Property Name="HoraCheckIn" Type="Time" Precision="7" />
+    <NavigationProperty Name="Reservas" Relationship="Self.FK__CheckIn__Reserva__3F466844" FromRole="CheckIn" ToRole="Reservas" />
+  </EntityType>
+  <EntityType Name="CheckOut">
+    <Key>
+      <PropertyRef Name="CheckOutID" />
+    </Key>
+    <Property Name="CheckOutID" Type="Int32" Nullable="false" />
+    <Property Name="ReservaID" Type="Int32" />
+    <Property Name="FechaCheckOut" Type="DateTime" Precision="0" />
+    <Property Name="HoraCheckOut" Type="Time" Precision="7" />
+    <Property Name="MontoTotal" Type="Decimal" Precision="10" Scale="2" />
+    <NavigationProperty Name="Reservas" Relationship="Self.FK__CheckOut__Reserv__4222D4EF" FromRole="CheckOut" ToRole="Reservas" />
+  </EntityType>
+  <EntityType Name="Clientes">
+    <Key>
+      <PropertyRef Name="ClienteID" />
+    </Key>
+    <Property Name="ClienteID" Type="Int32" Nullable="false" />
+    <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CorreoElectronico" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Telefono" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="ComentariosResenas" Relationship="Self.FK__Comentari__Clien__4BAC3F29" FromRole="Clientes" ToRole="ComentariosResenas" />
+    <NavigationProperty Name="Facturacion" Relationship="Self.FK__Facturaci__Clien__5CD6CB2B" FromRole="Clientes" ToRole="Facturacion" />
+    <NavigationProperty Name="ReservacionesEventos" Relationship="Self.FK__Reservaci__Clien__59063A47" FromRole="Clientes" ToRole="ReservacionesEventos" />
+    <NavigationProperty Name="Reservas" Relationship="Self.FK__Reservas__Client__3B75D760" FromRole="Clientes" ToRole="Reservas" />
+  </EntityType>
+  <EntityType Name="ComentariosResenas">
+    <Key>
+      <PropertyRef Name="ComentarioID" />
+    </Key>
+    <Property Name="ComentarioID" Type="Int32" Nullable="false" />
+    <Property Name="ClienteID" Type="Int32" />
+    <Property Name="Comentario" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Calificacion" Type="Int32" />
+    <Property Name="FechaComentario" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Clientes" Relationship="Self.FK__Comentari__Clien__4BAC3F29" FromRole="ComentariosResenas" ToRole="Clientes" />
+  </EntityType>
+  <EntityType Name="Conferencias">
+    <Key>
+      <PropertyRef Name="ConferenciaID" />
+    </Key>
+    <Property Name="ConferenciaID" Type="Int32" Nullable="false" />
+    <Property Name="EventoID" Type="Int32" />
+    <Property Name="FechaInicio" Type="DateTime" Precision="0" />
+    <Property Name="FechaFin" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Eventos" Relationship="Self.FK__Conferenc__Event__5629CD9C" FromRole="Conferencias" ToRole="Eventos" />
+  </EntityType>
+  <EntityType Name="ConsumosHabitacion">
+    <Key>
+      <PropertyRef Name="ConsumoID" />
+    </Key>
+    <Property Name="ConsumoID" Type="Int32" Nullable="false" />
+    <Property Name="HabitacionID" Type="Int32" />
+    <Property Name="FechaConsumo" Type="DateTime" Precision="0" />
+    <Property Name="Descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="MontoDecimal" Type="Decimal" Precision="10" Scale="2" />
+    <NavigationProperty Name="Habitaciones" Relationship="Self.FK__ConsumosH__Habit__48CFD27E" FromRole="ConsumosHabitacion" ToRole="Habitaciones" />
+  </EntityType>
+  <EntityType Name="Empleados">
+    <Key>
+      <PropertyRef Name="EmpleadoID" />
+    </Key>
+    <Property Name="EmpleadoID" Type="Int32" Nullable="false" />
+    <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Cargo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Salario" Type="Decimal" Precision="10" Scale="2" />
+  </EntityType>
+  <EntityType Name="Eventos">
+    <Key>
+      <PropertyRef Name="EventoID" />
+    </Key>
+    <Property Name="EventoID" Type="Int32" Nullable="false" />
+    <Property Name="NombreEvento" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="FechaEvento" Type="DateTime" Precision="0" />
+    <Property Name="Descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Lugar" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Conferencias" Relationship="Self.FK__Conferenc__Event__5629CD9C" FromRole="Eventos" ToRole="Conferencias" />
+    <NavigationProperty Name="ReservacionesEventos" Relationship="Self.FK__Reservaci__Event__59FA5E80" FromRole="Eventos" ToRole="ReservacionesEventos" />
+  </EntityType>
+  <EntityType Name="Facturacion">
+    <Key>
+      <PropertyRef Name="FacturaID" />
+    </Key>
+    <Property Name="FacturaID" Type="Int32" Nullable="false" />
+    <Property Name="ClienteID" Type="Int32" />
+    <Property Name="FechaFactura" Type="DateTime" Precision="0" />
+    <Property Name="MontoTotal" Type="Decimal" Precision="10" Scale="2" />
+    <NavigationProperty Name="Clientes" Relationship="Self.FK__Facturaci__Clien__5CD6CB2B" FromRole="Facturacion" ToRole="Clientes" />
+  </EntityType>
+  <EntityType Name="Habitaciones">
+    <Key>
+      <PropertyRef Name="HabitacionID" />
+    </Key>
+    <Property Name="HabitacionID" Type="Int32" Nullable="false" />
+    <Property Name="NumeroHabitacion" Type="Int32" />
+    <Property Name="TipoHabitacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="TarifaDecimal" Type="Decimal" Precision="10" Scale="2" />
+    <NavigationProperty Name="ConsumosHabitacion" Relationship="Self.FK__ConsumosH__Habit__48CFD27E" FromRole="Habitaciones" ToRole="ConsumosHabitacion" />
+    <NavigationProperty Name="MantenimientoHabitaciones" Relationship="Self.FK__Mantenimi__Habit__4E88ABD4" FromRole="Habitaciones" ToRole="MantenimientoHabitaciones" />
+    <NavigationProperty Name="Reservas" Relationship="Self.FK__Reservas__Habita__3C69FB99" FromRole="Habitaciones" ToRole="Reservas" />
+  </EntityType>
+  <EntityType Name="MantenimientoHabitaciones">
+    <Key>
+      <PropertyRef Name="MantenimientoID" />
+    </Key>
+    <Property Name="MantenimientoID" Type="Int32" Nullable="false" />
+    <Property Name="HabitacionID" Type="Int32" />
+    <Property Name="FechaMantenimiento" Type="DateTime" Precision="0" />
+    <Property Name="Descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Habitaciones" Relationship="Self.FK__Mantenimi__Habit__4E88ABD4" FromRole="MantenimientoHabitaciones" ToRole="Habitaciones" />
+  </EntityType>
+  <EntityType Name="Pagos">
+    <Key>
+      <PropertyRef Name="PagoID" />
+    </Key>
+    <Property Name="PagoID" Type="Int32" Nullable="false" />
+    <Property Name="ReservaID" Type="Int32" />
+    <Property Name="FechaPago" Type="DateTime" Precision="0" />
+    <Property Name="MontoDecimal" Type="Decimal" Precision="10" Scale="2" />
+    <NavigationProperty Name="Reservas" Relationship="Self.FK__Pagos__ReservaID__5165187F" FromRole="Pagos" ToRole="Reservas" />
+  </EntityType>
+  <EntityType Name="ReservacionesEventos">
+    <Key>
+      <PropertyRef Name="ReservacionEventoID" />
+    </Key>
+    <Property Name="ReservacionEventoID" Type="Int32" Nullable="false" />
+    <Property Name="ClienteID" Type="Int32" />
+    <Property Name="EventoID" Type="Int32" />
+    <Property Name="FechaReservacion" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Clientes" Relationship="Self.FK__Reservaci__Clien__59063A47" FromRole="ReservacionesEventos" ToRole="Clientes" />
+    <NavigationProperty Name="Eventos" Relationship="Self.FK__Reservaci__Event__59FA5E80" FromRole="ReservacionesEventos" ToRole="Eventos" />
+  </EntityType>
+  <EntityType Name="Reservas">
+    <Key>
+      <PropertyRef Name="ReservaID" />
+    </Key>
+    <Property Name="ReservaID" Type="Int32" Nullable="false" />
+    <Property Name="ClienteID" Type="Int32" />
+    <Property Name="HabitacionID" Type="Int32" />
+    <Property Name="FechaLlegada" Type="DateTime" Precision="0" />
+    <Property Name="FechaSalida" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="CheckIn" Relationship="Self.FK__CheckIn__Reserva__3F466844" FromRole="Reservas" ToRole="CheckIn" />
+    <NavigationProperty Name="CheckOut" Relationship="Self.FK__CheckOut__Reserv__4222D4EF" FromRole="Reservas" ToRole="CheckOut" />
+    <NavigationProperty Name="Clientes" Relationship="Self.FK__Reservas__Client__3B75D760" FromRole="Reservas" ToRole="Clientes" />
+    <NavigationProperty Name="Habitaciones" Relationship="Self.FK__Reservas__Habita__3C69FB99" FromRole="Reservas" ToRole="Habitaciones" />
+    <NavigationProperty Name="Pagos" Relationship="Self.FK__Pagos__ReservaID__5165187F" FromRole="Reservas" ToRole="Pagos" />
+  </EntityType>
+  <EntityType Name="Servicios">
+    <Key>
+      <PropertyRef Name="ServicioID" />
+    </Key>
+    <Property Name="ServicioID" Type="Int32" Nullable="false" />
+    <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="TarifaDecimal" Type="Decimal" Precision="10" Scale="2" />
+  </EntityType>
+  <Association Name="FK__CheckIn__Reserva__3F466844">
+    <End Role="Reservas" Type="Self.Reservas" Multiplicity="0..1" />
+    <End Role="CheckIn" Type="Self.CheckIn" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Reservas">
+        <PropertyRef Name="ReservaID" />
+      </Principal>
+      <Dependent Role="CheckIn">
+        <PropertyRef Name="ReservaID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__CheckOut__Reserv__4222D4EF">
+    <End Role="Reservas" Type="Self.Reservas" Multiplicity="0..1" />
+    <End Role="CheckOut" Type="Self.CheckOut" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Reservas">
+        <PropertyRef Name="ReservaID" />
+      </Principal>
+      <Dependent Role="CheckOut">
+        <PropertyRef Name="ReservaID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Comentari__Clien__4BAC3F29">
+    <End Role="Clientes" Type="Self.Clientes" Multiplicity="0..1" />
+    <End Role="ComentariosResenas" Type="Self.ComentariosResenas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Clientes">
+        <PropertyRef Name="ClienteID" />
+      </Principal>
+      <Dependent Role="ComentariosResenas">
+        <PropertyRef Name="ClienteID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Facturaci__Clien__5CD6CB2B">
+    <End Role="Clientes" Type="Self.Clientes" Multiplicity="0..1" />
+    <End Role="Facturacion" Type="Self.Facturacion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Clientes">
+        <PropertyRef Name="ClienteID" />
+      </Principal>
+      <Dependent Role="Facturacion">
+        <PropertyRef Name="ClienteID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Reservaci__Clien__59063A47">
+    <End Role="Clientes" Type="Self.Clientes" Multiplicity="0..1" />
+    <End Role="ReservacionesEventos" Type="Self.ReservacionesEventos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Clientes">
+        <PropertyRef Name="ClienteID" />
+      </Principal>
+      <Dependent Role="ReservacionesEventos">
+        <PropertyRef Name="ClienteID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Reservas__Client__3B75D760">
+    <End Role="Clientes" Type="Self.Clientes" Multiplicity="0..1" />
+    <End Role="Reservas" Type="Self.Reservas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Clientes">
+        <PropertyRef Name="ClienteID" />
+      </Principal>
+      <Dependent Role="Reservas">
+        <PropertyRef Name="ClienteID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Conferenc__Event__5629CD9C">
+    <End Role="Eventos" Type="Self.Eventos" Multiplicity="0..1" />
+    <End Role="Conferencias" Type="Self.Conferencias" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Eventos">
+        <PropertyRef Name="EventoID" />
+      </Principal>
+      <Dependent Role="Conferencias">
+        <PropertyRef Name="EventoID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ConsumosH__Habit__48CFD27E">
+    <End Role="Habitaciones" Type="Self.Habitaciones" Multiplicity="0..1" />
+    <End Role="ConsumosHabitacion" Type="Self.ConsumosHabitacion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Habitaciones">
+        <PropertyRef Name="HabitacionID" />
+      </Principal>
+      <Dependent Role="ConsumosHabitacion">
+        <PropertyRef Name="HabitacionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Reservaci__Event__59FA5E80">
+    <End Role="Eventos" Type="Self.Eventos" Multiplicity="0..1" />
+    <End Role="ReservacionesEventos" Type="Self.ReservacionesEventos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Eventos">
+        <PropertyRef Name="EventoID" />
+      </Principal>
+      <Dependent Role="ReservacionesEventos">
+        <PropertyRef Name="EventoID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Mantenimi__Habit__4E88ABD4">
+    <End Role="Habitaciones" Type="Self.Habitaciones" Multiplicity="0..1" />
+    <End Role="MantenimientoHabitaciones" Type="Self.MantenimientoHabitaciones" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Habitaciones">
+        <PropertyRef Name="HabitacionID" />
+      </Principal>
+      <Dependent Role="MantenimientoHabitaciones">
+        <PropertyRef Name="HabitacionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Reservas__Habita__3C69FB99">
+    <End Role="Habitaciones" Type="Self.Habitaciones" Multiplicity="0..1" />
+    <End Role="Reservas" Type="Self.Reservas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Habitaciones">
+        <PropertyRef Name="HabitacionID" />
+      </Principal>
+      <Dependent Role="Reservas">
+        <PropertyRef Name="HabitacionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Pagos__ReservaID__5165187F">
+    <End Role="Reservas" Type="Self.Reservas" Multiplicity="0..1" />
+    <End Role="Pagos" Type="Self.Pagos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Reservas">
+        <PropertyRef Name="ReservaID" />
+      </Principal>
+      <Dependent Role="Pagos">
+        <PropertyRef Name="ReservaID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="HotelDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="CheckIn" EntityType="Self.CheckIn" />
+    <EntitySet Name="CheckOut" EntityType="Self.CheckOut" />
+    <EntitySet Name="Clientes" EntityType="Self.Clientes" />
+    <EntitySet Name="ComentariosResenas" EntityType="Self.ComentariosResenas" />
+    <EntitySet Name="Conferencias" EntityType="Self.Conferencias" />
+    <EntitySet Name="ConsumosHabitacion" EntityType="Self.ConsumosHabitacion" />
+    <EntitySet Name="Empleados" EntityType="Self.Empleados" />
+    <EntitySet Name="Eventos" EntityType="Self.Eventos" />
+    <EntitySet Name="Facturacion" EntityType="Self.Facturacion" />
+    <EntitySet Name="Habitaciones" EntityType="Self.Habitaciones" />
+    <EntitySet Name="MantenimientoHabitaciones" EntityType="Self.MantenimientoHabitaciones" />
+    <EntitySet Name="Pagos" EntityType="Self.Pagos" />
+    <EntitySet Name="ReservacionesEventos" EntityType="Self.ReservacionesEventos" />
+    <EntitySet Name="Reservas" EntityType="Self.Reservas" />
+    <EntitySet Name="Servicios" EntityType="Self.Servicios" />
+    <AssociationSet Name="FK__CheckIn__Reserva__3F466844" Association="Self.FK__CheckIn__Reserva__3F466844">
+      <End Role="Reservas" EntitySet="Reservas" />
+      <End Role="CheckIn" EntitySet="CheckIn" />
+    </AssociationSet>
+    <AssociationSet Name="FK__CheckOut__Reserv__4222D4EF" Association="Self.FK__CheckOut__Reserv__4222D4EF">
+      <End Role="Reservas" EntitySet="Reservas" />
+      <End Role="CheckOut" EntitySet="CheckOut" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Comentari__Clien__4BAC3F29" Association="Self.FK__Comentari__Clien__4BAC3F29">
+      <End Role="Clientes" EntitySet="Clientes" />
+      <End Role="ComentariosResenas" EntitySet="ComentariosResenas" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Facturaci__Clien__5CD6CB2B" Association="Self.FK__Facturaci__Clien__5CD6CB2B">
+      <End Role="Clientes" EntitySet="Clientes" />
+      <End Role="Facturacion" EntitySet="Facturacion" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Reservaci__Clien__59063A47" Association="Self.FK__Reservaci__Clien__59063A47">
+      <End Role="Clientes" EntitySet="Clientes" />
+      <End Role="ReservacionesEventos" EntitySet="ReservacionesEventos" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Reservas__Client__3B75D760" Association="Self.FK__Reservas__Client__3B75D760">
+      <End Role="Clientes" EntitySet="Clientes" />
+      <End Role="Reservas" EntitySet="Reservas" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Conferenc__Event__5629CD9C" Association="Self.FK__Conferenc__Event__5629CD9C">
+      <End Role="Eventos" EntitySet="Eventos" />
+      <End Role="Conferencias" EntitySet="Conferencias" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ConsumosH__Habit__48CFD27E" Association="Self.FK__ConsumosH__Habit__48CFD27E">
+      <End Role="Habitaciones" EntitySet="Habitaciones" />
+      <End Role="ConsumosHabitacion" EntitySet="ConsumosHabitacion" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Reservaci__Event__59FA5E80" Association="Self.FK__Reservaci__Event__59FA5E80">
+      <End Role="Eventos" EntitySet="Eventos" />
+      <End Role="ReservacionesEventos" EntitySet="ReservacionesEventos" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Mantenimi__Habit__4E88ABD4" Association="Self.FK__Mantenimi__Habit__4E88ABD4">
+      <End Role="Habitaciones" EntitySet="Habitaciones" />
+      <End Role="MantenimientoHabitaciones" EntitySet="MantenimientoHabitaciones" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Reservas__Habita__3C69FB99" Association="Self.FK__Reservas__Habita__3C69FB99">
+      <End Role="Habitaciones" EntitySet="Habitaciones" />
+      <End Role="Reservas" EntitySet="Reservas" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Pagos__ReservaID__5165187F" Association="Self.FK__Pagos__ReservaID__5165187F">
+      <End Role="Reservas" EntitySet="Reservas" />
+      <End Role="Pagos" EntitySet="Pagos" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
